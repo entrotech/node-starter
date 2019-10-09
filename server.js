@@ -7,8 +7,9 @@ dotenv.config();
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const path = require("path");
-const middleware = require("./middleware");
+const middleware = require("./middleware/middleware");
 const router = require("./app/routes/index");
+const auth = require("./middleware/auth");
 
 const app = express();
 app.use(middleware.cors);
@@ -25,7 +26,8 @@ app.use(cookieParser());
 // Unauthenticated routes
 app.use(router);
 
-app.get("/hello/:name", (req, res) => {
+// The follow three routes are for testing purposes, and may be deleted later.
+app.get("/hello/:name", auth.ensureUser, (req, res) => {
   res.status(200).json({ hello: req.params.name });
 });
 

@@ -1,27 +1,18 @@
 const { pool } = require("./postgres-pool");
 
 const selectAll = () => {
-  let sql = `
+  const sql = `
     select w.id, w.dateCreated, w.name
     from widget w
     order by w.name, w.dateCreated
   `;
-  sql = `select * from public.widget`;
   return pool.query(sql).then(res => {
-    // const widgets = [];
-    // res.rows.forEach(row => {
-    //   widgets.push({
-    //     id: row.id,
-    //     name: row.name,
-    //     dateCreated: row.dateCreated
-    //   });
-    // });
     return res.rows;
   });
 };
 
 const selectById = id => {
-  const sql = `select * from widgets where id = ${id}`;
+  const sql = `select w.id, w.dateCreated, w.name from widgets w where w.id = ${id}`;
   return pool.query(sql).then(res => {
     return res.rows[0];
   });
